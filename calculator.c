@@ -22,6 +22,7 @@
 #define EQUAL 15
 #define CLEAR 16
 #define SQRT 17
+#define POWEROF 18
 
 int firstDec = true;
 int firstPro = true;
@@ -208,9 +209,18 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
                     
                     SetWindowText(hEdit, display);
                 break;
+                case POWEROF:
+                    if (task == 0 & firstDec == false){
+                        strcat(display, "^");
+                        task = 5;
+                        OperationEdit(&firstPro, &decimal, &first, mind, decimal);
+                    }
+                    
+                    SetWindowText(hEdit, display);
+                break;
 
                 case EQUAL:
-                    if(task != 0){
+                    if(task != 0 & decimal != 0){
                        switch(task) {
                         case 1:
                         first += NumberOut(mind ,decimal);
@@ -226,6 +236,10 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 
                         case 4:
                         first /= NumberOut(mind,decimal);
+                        break;
+                        case 5:
+                        int base = first;
+                        first = pow(base, NumberOut(mind, decimal));
                         break;
                        }
                         sprintf(display,"%lf", first);
@@ -276,6 +290,7 @@ void AddControls(HWND hWnd) {
     NULL, NULL, NULL);
     
     CreateWindowW(L"Button", L"Sqrt", WS_VISIBLE | WS_CHILD, 50, 150, 60, 60, hWnd, (HMENU)SQRT, NULL, NULL);
+    CreateWindowW(L"Button", L"Power", WS_VISIBLE | WS_CHILD, 50, 235, 60, 60, hWnd, (HMENU)POWEROF, NULL, NULL);
     
     CreateWindowW(L"Button", L"7", WS_VISIBLE | WS_CHILD, 135, 150, 60, 60, hWnd, (HMENU)NUMBER_SEVEN, NULL, NULL);
     CreateWindowW(L"Button", L"4", WS_VISIBLE | WS_CHILD, 135, 235, 60, 60, hWnd, (HMENU)NUMBER_FOUR, NULL, NULL);
