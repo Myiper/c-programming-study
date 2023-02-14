@@ -196,6 +196,18 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
                     
                     SetWindowText(hEdit, display);
                     break;
+                case SQRT:
+                    if (task == 0 & firstDec == false){
+                        OperationEdit(&firstPro, &decimal, &first, mind, decimal);
+                        first = sqrt(first);
+                        sprintf(display,"%lf", first);
+                        
+                        decimal = 0;
+                        task= 0;
+                    }
+                    
+                    SetWindowText(hEdit, display);
+                break;
 
                 case EQUAL:
                     if(task != 0){
@@ -237,13 +249,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
                     int mind[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
                     SetWindowText(hEdit, display);
-                break;
-                case SQRT:
-                    first = sqrt(NumberOut(mind ,decimal));
-                    sprintf(display,"%lf", first);
-                    decimal = 0;
-                    SetWindowText(hEdit, display);
-
                 break;
             }
 
