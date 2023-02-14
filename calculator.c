@@ -33,11 +33,13 @@ double first = 0;
 char display[20];
 char charInput[3];
 
+int *pTask = &task;
 int *pFirstDec = &firstDec;
 int *pFirstPro = &firstDec;
 int *pDecimal = &decimal;
 double *pFirst = &first;
 char *pDisplay = display;
+
 
 
 
@@ -47,6 +49,7 @@ void AddControls(HWND);
 double NumberOut(int[], int);
 void ButtonEdit(int *pFirstDec, int *pDecimal, char *pDisplay, char charInput[]);
 void OperationEdit(int *pFirstPro, int *pDecimal, double *pFirst, int mind[], int decimal);
+void PrintResult(double first, char display[], int *pDecimal, int *pTask);
 
 
 HWND hEdit;
@@ -201,10 +204,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
                     if (task == 0 & firstDec == false){
                         OperationEdit(&firstPro, &decimal, &first, mind, decimal);
                         first = sqrt(first);
-                        sprintf(display,"%lf", first);
-                        
-                        decimal = 0;
-                        task= 0;
+                        int hold = (int)first;
+                        PrintResult(first, display, &decimal, &task);
                     }
                     
                     SetWindowText(hEdit, display);
@@ -242,10 +243,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
                         first = pow(base, NumberOut(mind, decimal));
                         break;
                        }
-                        sprintf(display,"%lf", first);
                         
-                        decimal = 0;
-                        task= 0;
+                        PrintResult(first, display, &decimal, &task);
                         
                     }
 
@@ -348,4 +347,16 @@ if(firstPro == true){
     *pFirstPro=false;
 }
 *pDecimal = 0;
+}
+void PrintResult(double first, char display[], int *pDecimal, int *pTask){
+    int hold = (int)first;
+    if (first-hold == 0){
+    sprintf(display,"%.0lf", first);
+    }
+    else {
+    sprintf(display,"%lf", first);
+    }
+                        
+    *pDecimal = 0;
+    *pTask= 0;
 }
